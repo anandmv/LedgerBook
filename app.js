@@ -3,8 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const scriptPath = path.join(__dirname, 'client', 'public');
-const publicPath = path.join(__dirname, 'client', 'build');
+const publicPath = path.join(__dirname, 'public');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -20,9 +19,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(publicPath));
-app.use(express.static(scriptPath));
 app.get('*', (req, res) => {
-   res.sendFile(path.join(scriptPath, 'index.html'));
+   res.sendFile(path.join(publicPath, 'index.html'));
 });
 
 app.use('/', indexRouter);
