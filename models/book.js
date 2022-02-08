@@ -2,6 +2,8 @@
 const {
   Model
 } = require('sequelize');
+const { v4: uuid } = require('uuid');
+
 module.exports = (sequelize, DataTypes) => {
   class Book extends Model {
     /**
@@ -14,10 +16,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Book.init({
-    id: {
-      primaryKey: true,
-      type: DataTypes.UUID
-    },
     name: DataTypes.STRING,
     user: {
       type: DataTypes.UUID,
@@ -43,5 +41,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Book',
   });
+  Book.beforeCreate( book => book.id= uuid());
   return Book;
 };

@@ -3,9 +3,9 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Books', {
       id: {
-        allowNull: false,
-        primaryKey: true,
         type: Sequelize.UUID,
+        primaryKey: true,
+        allowNull: false,
         defaultValue: Sequelize.UUIDV4
       },
       name: {
