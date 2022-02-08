@@ -2,6 +2,7 @@
 const { Model } = require('sequelize');
 const bcrypt = require("bcrypt");
 const { v4: uuid } = require('uuid');
+const { UserRoles } = require('../helper/rbac');
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -22,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    roles: DataTypes.ENUM(['Admin', 'Accountant'])
+    roles: DataTypes.ENUM(Object.keys(UserRoles))
   }, {
     sequelize,
     hooks: {

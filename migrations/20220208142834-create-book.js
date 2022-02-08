@@ -25,7 +25,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       meta: {
-        type: Sequelize.STRING
+        type: Sequelize.JSON
       },
       account: {
         type: Sequelize.UUID,

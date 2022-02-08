@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     credit: DataTypes.INTEGER,
     debit: DataTypes.INTEGER,
-    meta: DataTypes.STRING,
+    meta: DataTypes.JSON,
     account: {
       type: DataTypes.UUID,
       references: {
