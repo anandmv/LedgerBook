@@ -4,43 +4,55 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import PeopleIcon from '@mui/icons-material/People';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import { Link } from "react-router-dom";
 
+interface StyledLinkProps {
+    to: string;
+    children: React.ReactNode;
+}
+const StyledLink = ({ to, children }:StyledLinkProps) => {
+    return(
+    <Link to={to} style={{ textDecoration: 'none', color: 'black', display: 'flex', width: '100%'}}>
+        {children}
+    </Link>
+)}
 export const mainListItems = (
     <React.Fragment>
         <ListItemButton>
-            <ListItemIcon>
-                <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary="Dashboard" />
+            <StyledLink to="/">
+                <ListItemIcon>
+                    <DashboardIcon />
+                </ListItemIcon>
+                <ListItemText primary="Dashboard" />
+            </StyledLink>
         </ListItemButton>
         <ListItemButton>
-            <ListItemIcon>
-                <ShoppingCartIcon />
-            </ListItemIcon>
-            <ListItemText primary="Orders" />
+            <StyledLink to="/ledger">
+                <ListItemIcon>
+                    <MenuBookIcon />
+                </ListItemIcon>
+                <ListItemText primary="Ledger Book" />
+            </StyledLink>
         </ListItemButton>
         <ListItemButton>
-            <ListItemIcon>
-                <PeopleIcon />
-            </ListItemIcon>
-            <ListItemText primary="Customers" />
+            <StyledLink to="/accounts">
+                <ListItemIcon>
+                    <AccountTreeIcon />
+                </ListItemIcon>
+                <ListItemText primary="Accounts" />
+            </StyledLink>
         </ListItemButton>
         <ListItemButton>
-            <ListItemIcon>
-                <BarChartIcon />
-            </ListItemIcon>
-            <ListItemText primary="Reports" />
-        </ListItemButton>
-        <ListItemButton>
-            <ListItemIcon>
-                <LayersIcon />
-            </ListItemIcon>
-            <ListItemText primary="Integrations" />
+            <StyledLink to="/users">
+                <ListItemIcon>
+                    <AccountBoxIcon />
+                </ListItemIcon>
+                <ListItemText primary="Users" />
+            </StyledLink>
         </ListItemButton>
     </React.Fragment>
 );

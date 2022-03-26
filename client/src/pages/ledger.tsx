@@ -6,7 +6,7 @@ import Chart from '../component/chart';
 import Deposits from '../component/deposit';
 import Orders from '../component/order';
 
-const Dashboard = () => {
+const Ledger = () => {
     return (
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
@@ -47,4 +47,4 @@ const Dashboard = () => {
     );
 }
 
-export default Dashboard;
+export default Ledger;

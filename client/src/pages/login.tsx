@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -11,15 +12,43 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { RootState } from '../store';
+import { userActions } from '../store/actions';
+import {
+    useNavigate,
+    useLocation,
+} from "react-router-dom";
+import { useAuth } from '../provider/authProvider';
+import Alert from '@mui/material/Alert';
 
-const LoginPage = () =>{
+const LoginPage = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const auth = useAuth();
+    const dispatch = useDispatch();
+
+    const [ errorMessage, setErrorMessage ] = React.useState('');
+    const [ isProcessing, setIsProcessing ] = React.useState(false);
+
+    const state = location.state as any;
+    const from = state?.from?.pathname || "/";
+    const authentication: any = useSelector((state: RootState) => state.authentication);
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        // eslint-disable-next-line no-console
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
+        const email: string = data.get('email')?.toString() || '';
+        const password: string = data.get('password')?.toString() || '';
+        setErrorMessage('');
+        setIsProcessing(true);
+        dispatch(userActions.request({ username: email }));
+        auth.signin(email, password, (data: any) => {
+            setIsProcessing(false);
+            if(data.error && data.message){
+                setErrorMessage(data.message);
+                return dispatch(userActions.failure(data.message));
+            }
+            navigate(from);
         });
     };
 
@@ -65,11 +94,13 @@ const LoginPage = () =>{
                         control={<Checkbox value="remember" color="primary" />}
                         label="Remember me"
                     />
+                    {!!errorMessage.length && <Alert severity="error">{errorMessage}</Alert>}
                     <Button
                         type="submit"
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
+                        disabled={isProcessing || authentication.loggingIn}
                     >
                         Sign In
                     </Button>
