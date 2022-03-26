@@ -5,8 +5,15 @@ import Paper from '@mui/material/Paper';
 import Chart from '../component/chart';
 import Deposits from '../component/deposit';
 import Orders from '../component/order';
+import { useDispatch } from 'react-redux';
+import { userActions } from '../store/actions';
 
 const Dashboard = () => {
+
+    const dispatch = useDispatch();
+    React.useEffect(()=>{
+        dispatch(userActions.getAll());
+    }, [dispatch]);
     return (
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>

@@ -34,7 +34,6 @@ export const RequireAuth = ({ children }: { children: JSX.Element }) => {
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const authenticationState: any= useSelector((state: RootState) => state.authentication);
     let [user, setUser] = React.useState<any>(authenticationState.loggedIn && authenticationState.user);
-    console.log(authenticationState)
     let signin = (email: string, password: string, callback: (response: any) => any) => {
         return authProvider.signin(email, password, (response) => {
             setUser(response);

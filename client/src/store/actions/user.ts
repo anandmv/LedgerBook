@@ -1,5 +1,5 @@
 import { userConstants } from '../../constants';
-import { userService } from '../../service';
+import { userService, accountsService, ledgerService } from '../../service';
 
 export const userActions = {
     logout,
@@ -24,9 +24,13 @@ function getAll() {
 
         userService.getAll()
             .then(
-                users => dispatch(success(users)),
-                error => dispatch(failure(error))
+                (users: any) => dispatch(success(users)),
+                (error: any) => dispatch(failure(error))
             );
+        accountsService.getAll()
+            .then(console.log)
+        ledgerService.getAll()
+            .then(console.log)
     };
 
     function request() { return { type: userConstants.GETALL_REQUEST } }

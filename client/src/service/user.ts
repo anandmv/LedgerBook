@@ -1,16 +1,6 @@
-function getAuthToken() {
-    // return authorization header with jwt token
-    let token = localStorage.getItem('token') || '';
-
-    if (token) {
-        return `Bearer ${token}`;
-    }
-    return '';
-}
-
-const config = {
-    apiUrl: 'http://localhost:8000'
-}
+import getAuthToken from "../utils/getAuthToken";
+import apiConfig from '../utils/apiConfig';
+import handleResponse from "../utils/handleResponse";
 
 function login(email: string, password: string) {
     const requestOptions = {
@@ -19,7 +9,7 @@ function login(email: string, password: string) {
         body: JSON.stringify({ email, password })
     };
 
-    return fetch(`${config.apiUrl}/auth/login`, requestOptions)
+    return fetch(`${apiConfig.apiUrl}/auth/login`, requestOptions)
         .then((response: { headers: any, json: any; text: () => Promise<any>; ok: any; status: number; statusText: any; }) => {
             const contentType = response.headers.get("content-type");
             if (contentType && contentType.indexOf("application/json") !== -1) {
@@ -35,7 +25,6 @@ function login(email: string, password: string) {
             localStorage.setItem('token', response.token);
             localStorage.setItem('user', JSON.stringify(response.user));
             authProvider.isAuthenticated = true;
-            console.log(response)
             return response;
         });
 }
@@ -54,25 +43,7 @@ function getAll() {
         }
     };
 
-    return window.fetch(`${config.apiUrl}/users`, requestOptions).then(handleResponse);
-}
-
-function handleResponse(response: { text: () => Promise<any>; ok: any; status: number; statusText: any; }) {
-    return response.text().then((text: string) => {
-        const data = typeof text === 'object' ? JSON.parse(text) : {};
-        if (!response.ok) {
-            if (response.status === 401) {
-                // auto logout if 401 response returned from api
-                logout();
-                window.location.reload();
-            }
-
-            const error = (data && data.message) || response.statusText;
-            return Promise.reject(error);
-        }
-
-        return data;
-    });
+    return window.fetch(`${apiConfig.apiUrl}/users`, requestOptions).then(handleResponse);
 }
 
 export const authProvider = {
